@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pandit Portal</title>
+  <style>
+    :root {
+      --saffron: #f36f21;
+      --deep: #8b4d00;
+      --gold: #f3c869;
+      --bg: #fff8f1;
+      --card: #fffefa;
+      --muted: #6b5a4a;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 10% 10%, #fff3e6, var(--bg) 40%);
+      color: var(--deep);
+      padding: 28px 16px 60px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1100px
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 22px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08)
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px
+    }
+
+    p.lead {
+      margin: 2px 0 0;
+      color: var(--muted)
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 22px
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 16px
+    }
+
+    @media(min-width:800px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    .card {
+      background: var(--card);
+      padding: 14px;
+      border-radius: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      box-shadow: 0 6px 20px rgba(139, 77, 0, 0.06);
+      border: 1px solid rgba(139, 77, 0, 0.06)
+    }
+
+    .avatar img {
+      width: 92px;
+      height: 92px;
+      border-radius: 10px;
+      object-fit: cover
+    }
+
+    .info {
+      flex: 1
+    }
+
+    .name {
+      font-weight: 700;
+      color: var(--deep);
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .poojas {
+      margin-top: 10px;
+      font-size: 14px
+    }
+
+    .addr {
+      font-size: 13px;
+      margin-top: 8px;
+      color: var(--muted)
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 600
+    }
+
+    .call {
+      background: var(--saffron);
+      color: white
+    }
+
+    .book {
+      background: transparent;
+      border: 1px solid var(--saffron);
+      color: var(--saffron)
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 245, 0.95));
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(139, 77, 0, 0.06)
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      margin-top: 10px;
+      color: var(--muted)
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(139, 77, 0, 0.12);
+      margin-top: 6px;
+      font-size: 14px
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical
+    }
+
+    .submit {
+      margin-top: 12px;
+      background: var(--deep);
+      color: white;
+      padding: 10px;
+      border-radius: 10px;
+      border: 0;
+      width: 100%;
+      font-weight: 700
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 22px
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">ॐ</div>
+      <div>
+        <h1>Pandit Portal</h1>
+        <p class="lead">Find trusted Guruji for Vastu, Munj, Lagna & all traditional poojas</p>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="cards" id="guruji-list"></div>
+      </section>
+
+      <aside class="panel">
+        <h3>Booking / Contact</h3>
+        <form id="contact-form">
+          <label>Select Guruji (optional)</label>
+          <select id="g-name" name="guruji">
+            <option value="">-- Any Guruji --</option>
+          </select>
+
+          <label>Your Name</label>
+          <input id="name" name="name" type="text" placeholder="Your full name" required>
+
+          <label>Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="10-digit phone" pattern="[0-9]{10}" required>
+
+          <label>Message / Booking Details</label>
+          <textarea id="msg" name="message" placeholder="Date, pooja type, preferred time..." required></textarea>
+
+          <button type="submit" class="submit">Send Booking Message</button>
+        </form>
+        <div id="sent-feedback"
+          style="display:none;margin-top:12px;padding:10px;border-radius:8px;background:linear-gradient(90deg,var(--gold),var(--saffron));color:white;font-weight:700">
+        </div>
+      </aside>
+    </main>
+
+    <footer>© 2025 Pandit Portal • Sangli</footer>
+  </div>
+
+  <script>
+    const GURUJS = [
+      {
+        name: 'Yash A. Kulkarni',
+        phone: '7666098688',
+        poojas: ['Vastushant', 'Munj', 'Lagna'],
+        address: 'Sangli 416-416',
+        img: 'yash.jpg'
+      },
+      {
+        name: 'Atharva Khadilkar',
+        phone: '8237638227',
+        poojas: ['Vastushant', 'Munj', 'Lagna'],
+        address: 'Sangli 416-416',
+        img: 'atharva.jpg'
+      },
+      {
+        name: 'Mayur Tamhankar',
+        phone: '9049626214',
+        poojas: ['Vastushant', 'Munj', 'Lagna'],
+        address: 'Sangli 416-416',
+        img: 'mayur.jpg'
+      },
+      {
+        name: 'Chinmay Kulkarni',
+        phone: '8275278755',
+        poojas: ['Vastushant', 'Munj', 'Lagna'],
+        address: 'Sangli 416-416',
+        img: 'chinmay.jpg'
+      }
+    ];
+
+    const list = document.getElementById("guruji-list");
+    const select = document.getElementById("g-name");
+
+    GURUJS.forEach(g => {
+      // Add to dropdown
+      const opt = document.createElement("option");
+      opt.value = g.name;
+      opt.textContent = g.name;
+      select.appendChild(opt);
+
+      // Create card
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="avatar"><img src="${g.img}" alt="${g.name}"></div>
+        <div class="info">
+          <div class="name">
+            <span>${g.name}</span>
+            <a href="tel:${g.phone}" style="color:var(--saffron);font-weight:700">${g.phone}</a>
+          </div>
+          <div class="poojas"><strong>Special Poojas:</strong> ${g.poojas.join(', ')}</div>
+          <div class="addr">${g.address}</div>
+          <div class="actions">
+            <a class="btn call" href="tel:${g.phone}">Call</a>
+          </div>
+        </div>`;
+      list.appendChild(card);
+    });
+
+    const form = document.getElementById("contact-form");
+    const feedback = document.getElementById("sent-feedback");
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      feedback.style.display = "block";
+      feedback.textContent = "✅ Message sent successfully! (Saved locally for demo)";
+      form.reset();
+      setTimeout(() => feedback.style.display = "none", 5000);
+    });
+  </script>
+</body>
+
+</html>
